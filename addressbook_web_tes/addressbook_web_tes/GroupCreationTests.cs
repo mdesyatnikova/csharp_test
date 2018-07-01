@@ -43,7 +43,7 @@ namespace WebArrdessbookTests
         }
 
         [Test]
-        public void TestCreationTest()
+        public void GroupCreationTest()
         {
             driver.Navigate().GoToUrl(baseURL + "addressbook/");
             driver.FindElement(By.Name("user")).Clear();
