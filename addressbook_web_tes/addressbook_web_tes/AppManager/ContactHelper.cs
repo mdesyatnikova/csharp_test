@@ -11,8 +11,15 @@ namespace WebArrdessbookTests
 {
     public class ContactHelper : HelperBase
     {
-        public ContactHelper(IWebDriver driver) : base(driver)
+        public ContactHelper(ApplicationManager manager) : base(manager)
         {
+        }
+
+        internal void Create(ContactData contact)
+        {
+            InitNewContactCreation();
+            FillContactForm(contact);
+            SubmitContactCreation();
         }
 
         public void FillContactForm(ContactData contact)
@@ -26,6 +33,8 @@ namespace WebArrdessbookTests
             driver.FindElement(By.Name("address")).Clear();
             driver.FindElement(By.Name("address")).SendKeys(contact.Address);
         }
+
+
 
         public void InitNewContactCreation()
         {

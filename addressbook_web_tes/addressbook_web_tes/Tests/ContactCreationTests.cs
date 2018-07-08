@@ -16,14 +16,11 @@ namespace WebArrdessbookTests
         [Test]
         public void ContactCreationTest()
         {
-            app.Navigator.GoToHomePage();
-            app.Auth.Login(new AccountData ("admin", "secret"));
-            app.Contact.InitNewContactCreation();
             ContactData contact = new ContactData("Ivan", "Petrov");
             contact.Nickname = "ipetrov";
             contact.Address = "NN";
-            app.Contact.FillContactForm(contact);
-            app.Contact.SubmitContactCreation();
+            app.Contact.Create(contact);
+
         }
             
     }

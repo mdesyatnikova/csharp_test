@@ -27,10 +27,10 @@ namespace WebArrdessbookTests
             driver = new FirefoxDriver(options);
             baseURL = "http://localhost";
         
-            loginHelper = new LoginHelper(driver);
-            navigator = new NavigationHelper(driver, baseURL);
-            groupHelper = new GroupHelper(driver);
-            contactHelper = new ContactHelper(driver);
+            loginHelper = new LoginHelper(this);
+            navigator = new NavigationHelper(this, baseURL);
+            groupHelper = new GroupHelper(this);
+            contactHelper = new ContactHelper(this);
         }
 
         public void Stop()
@@ -77,6 +77,13 @@ namespace WebArrdessbookTests
             }
         }
 
+        public IWebDriver Driver
+        {
+            get
+            {
+                return driver;
+            }
 
+        }
     }
 }

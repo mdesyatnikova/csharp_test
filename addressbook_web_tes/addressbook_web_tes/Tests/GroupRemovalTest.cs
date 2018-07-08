@@ -14,12 +14,7 @@ namespace WebArrdessbookTests
         [Test]
         public void GroupRemovalTest()
         {
-            app.Navigator.GoToHomePage();
-            app.Auth.Login(new AccountData("admin","secret"));
-            app.Navigator.GoToGroupPage();
-            app.Group.SelectGroup(1);
-            app.Group.RemoveGroup();
-            app.Group.ReturnToGroupPage();
+            app.Group.Remove(1);
         }
           
     }
