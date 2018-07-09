@@ -15,13 +15,25 @@ namespace WebArrdessbookTests
         {
         }
 
-        public GroupHelper Remove(int index)
+        public GroupHelper Remove(int p)
         {
             manager.Navigator.GoToGroupPage();
-            SelectGroup(1);
+            SelectGroup(p);
             RemoveGroup();
             ReturnToGroupPage();
             return this;
+        }
+
+        public GroupHelper Modify (int p, GroupData newData)
+        {
+            manager.Navigator.GoToGroupPage();
+            SelectGroup(p);
+            InitNewGroupModification();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            ReturnToGroupPage();
+            return this;
+
         }
 
         public GroupHelper Create(GroupData group)
@@ -74,6 +86,18 @@ namespace WebArrdessbookTests
         public GroupHelper RemoveGroup()
         {
             driver.FindElement(By.Name("delete")).Click();
+            return this;
+        }
+
+        public GroupHelper SubmitGroupModification()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+
+        public GroupHelper InitNewGroupModification()
+        {
+            driver.FindElement(By.Name("edit")).Click();
             return this;
         }
 
