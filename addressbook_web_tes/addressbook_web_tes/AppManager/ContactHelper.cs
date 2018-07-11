@@ -24,9 +24,9 @@ namespace WebArrdessbookTests
             return this;
         }
 
-        internal ContactHelper Modify(ContactData newData)
+        internal ContactHelper Modify(int p, ContactData newData)
         {
-            InitContactModify();
+            InitContactModify(p);
             FillContactForm(newData);
             SubmitContactModify();
             manager.Navigator.ReturnToHomePage();
@@ -85,9 +85,9 @@ namespace WebArrdessbookTests
             return this;
         }
 
-        public ContactHelper InitContactModify()
+        public ContactHelper InitContactModify(int p)
         {
-            driver.FindElement(By.CssSelector("img[alt=\"Edit\"]")).Click();
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + p + "]")).Click();
             return this;
         }
 

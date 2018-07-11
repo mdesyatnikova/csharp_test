@@ -15,7 +15,7 @@ namespace WebArrdessbookTests
         {
             ContactData newData = new ContactData("Petr", "Ivanov");
             newData.Nickname = "pivanov";
-            app.Contact.Modify (newData);
+            app.Contact.Modify (1, newData);
         }
     }
 }
