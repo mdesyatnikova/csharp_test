@@ -24,9 +24,8 @@ namespace WebArrdessbookTests
             return this;
         }
 
-        internal ContactHelper Modify(int p, ContactData newData)
+        internal ContactHelper Modify(ContactData newData)
         {
-            SelectContact(p);
             InitContactModify();
             FillContactForm(newData);
             SubmitContactModify();
