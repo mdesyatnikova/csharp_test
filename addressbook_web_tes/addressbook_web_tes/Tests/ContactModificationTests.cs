@@ -8,13 +8,14 @@ using NUnit.Framework;
 namespace WebArrdessbookTests
 {
     [TestFixture]
-    public class ContactModificationTests: TestBase
+    public class ContactModificationTests: Auth_TestBase
     {
         [Test]
         public void ContactModificationTest()
         {
             ContactData newData = new ContactData("Petr", "Ivanov");
             newData.Nickname = "pivanov";
+            newData.Address = null;
             app.Contact.Modify (1, newData);
         }
     }
