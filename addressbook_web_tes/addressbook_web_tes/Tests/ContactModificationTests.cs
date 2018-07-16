@@ -13,10 +13,13 @@ namespace WebArrdessbookTests
         [Test]
         public void ContactModificationTest()
         {
+            ContactData contact = new ContactData("Ivan", "Petrov");
+            contact.Nickname = "ipetrov";
+            contact.Address = "NN";
             ContactData newData = new ContactData("Petr", "Ivanov");
             newData.Nickname = "pivanov";
             newData.Address = null;
-            app.Contact.Modify (1, newData);
+            app.Contact.Modify (1, contact, newData);
         }
     }
 }

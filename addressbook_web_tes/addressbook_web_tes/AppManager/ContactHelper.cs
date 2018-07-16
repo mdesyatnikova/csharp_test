@@ -24,18 +24,18 @@ namespace WebArrdessbookTests
             return this;
         }
 
-        internal ContactHelper Modify(int p, ContactData newData)
+        internal ContactHelper Modify(int p, ContactData contact, ContactData newData)
         {
-            InitContactModify(p);
+            InitContactModify(p, contact);
             FillContactForm(newData);
             SubmitContactModify();
             manager.Navigator.ReturnToHomePage();
             return this;
         }
 
-        public ContactHelper Remove(int p)
+        public ContactHelper Remove(int p, ContactData contact)
         {
-            SelectContact(p);
+            SelectContact(p, contact);
             RemoveContact();
             CloseAlert();
             return this;
@@ -69,8 +69,12 @@ namespace WebArrdessbookTests
             return this;
         }
 
-        public ContactHelper SelectContact(int p)
+        public ContactHelper SelectContact(int p, ContactData contact)
         {
+            if (IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + p + "]")) == false)
+            {
+                Create(contact);
+            }
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + p + "]")).Click();
             return this;
         }
@@ -81,9 +85,13 @@ namespace WebArrdessbookTests
             return this;
         }
 
-        public ContactHelper InitContactModify(int p)
+        public ContactHelper InitContactModify(int p, ContactData contact)
         {
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + p + "]")).Click();
+            if (IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + p + "]")) == false)
+            {
+                Create(contact);
+            }
+                driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + p + "]")).Click();
             return this;
         }
 

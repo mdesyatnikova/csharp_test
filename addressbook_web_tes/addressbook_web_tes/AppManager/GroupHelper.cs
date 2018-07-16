@@ -15,19 +15,19 @@ namespace WebArrdessbookTests
         {
         }
 
-        public GroupHelper Remove(int p)
+        public GroupHelper Remove(int p, GroupData group)
         {
             manager.Navigator.GoToGroupPage();
-            SelectGroup(p);
+            SelectGroup(group, p);
             RemoveGroup();
             ReturnToGroupPage();
             return this;
         }
 
-        public GroupHelper Modify (int p, GroupData newData)
+        public GroupHelper Modify (int p, GroupData group, GroupData newData)
         {
             manager.Navigator.GoToGroupPage();
-            SelectGroup(p);
+            SelectGroup(group, p);
             InitNewGroupModification();
             FillGroupForm(newData);
             SubmitGroupModification();
@@ -73,9 +73,13 @@ namespace WebArrdessbookTests
             return this;
         }
 
-        public GroupHelper SelectGroup(int index)
+        public GroupHelper SelectGroup(GroupData group, int p)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            if (IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + p + "]")) == false)
+            {
+            Create(group);
+            }
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + p + "]")).Click();
             return this;
         }
 
