@@ -13,13 +13,21 @@ namespace WebArrdessbookTests
         [Test]
         public void ContactModificationTest()
         {
-            ContactData contact = new ContactData("Ivan", "Petrov");
-            contact.Nickname = "ipetrov";
-            contact.Address = "NN";
+            //prepare
+            app.Navigator.GoToHomePage();
+            if (app.Contact.CheckElement(1) == false)
+            {
+                ContactData contact = new ContactData("Ivan", "Petrov");
+                contact.Nickname = "ipetrov";
+                contact.Address = "NN";
+                app.Contact.Create(contact);
+            }
+
+            //action
             ContactData newData = new ContactData("Petr", "Ivanov");
             newData.Nickname = "pivanov";
             newData.Address = null;
-            app.Contact.Modify (1, contact, newData);
+            app.Contact.Modify (1, newData);
         }
     }
 }

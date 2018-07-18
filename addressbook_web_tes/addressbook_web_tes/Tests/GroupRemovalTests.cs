@@ -14,10 +14,19 @@ namespace WebArrdessbookTests
         [Test]
         public void GroupRemovalTest()
         {
-            GroupData group = new GroupData("grop1");
-            group.Header = "group1";
-            group.Footer = "comment1";
-            app.Group.Remove(1, group);
+            //prepare
+            app.Navigator.GoToGroupPage();
+            if (app.Group.CheckElement(1) == false)
+            {
+                GroupData group = new GroupData("grop1");
+                group.Header = "group1";
+                group.Footer = "comment1";
+                app.Group.Create(group);
+
+            }
+
+            //action     
+            app.Group.Remove(1);
         }
           
     }

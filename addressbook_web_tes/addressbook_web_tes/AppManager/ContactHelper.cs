@@ -24,18 +24,18 @@ namespace WebArrdessbookTests
             return this;
         }
 
-        internal ContactHelper Modify(int p, ContactData contact, ContactData newData)
+        internal ContactHelper Modify(int p, ContactData newData)
         {
-            InitContactModify(p, contact);
+            InitContactModify(p);
             FillContactForm(newData);
             SubmitContactModify();
             manager.Navigator.ReturnToHomePage();
             return this;
         }
 
-        public ContactHelper Remove(int p, ContactData contact)
+        public ContactHelper Remove(int p)
         {
-            SelectContact(p, contact);
+            SelectContact(p);
             RemoveContact();
             CloseAlert();
             return this;
@@ -69,12 +69,8 @@ namespace WebArrdessbookTests
             return this;
         }
 
-        public ContactHelper SelectContact(int p, ContactData contact)
+        public ContactHelper SelectContact(int p)
         {
-            if (IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + p + "]")) == false)
-            {
-                Create(contact);
-            }
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + p + "]")).Click();
             return this;
         }
@@ -85,13 +81,9 @@ namespace WebArrdessbookTests
             return this;
         }
 
-        public ContactHelper InitContactModify(int p, ContactData contact)
+        public ContactHelper InitContactModify(int p)
         {
-            if (IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + p + "]")) == false)
-            {
-                Create(contact);
-            }
-                driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + p + "]")).Click();
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + p + "]")).Click();
             return this;
         }
 
@@ -99,6 +91,11 @@ namespace WebArrdessbookTests
         {
             driver.SwitchTo().Alert().Accept();
             return this;
+        }
+
+        public bool CheckElement(int p)
+        {
+            return IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + p + "]"));            
         }
     }
 }

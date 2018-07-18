@@ -9,25 +9,25 @@ using OpenQA.Selenium.Support.UI;
 
 namespace WebArrdessbookTests
 {
-    public class GroupHelper: HelperBase
+    public class GroupHelper : HelperBase
     {
-        public GroupHelper(ApplicationManager manager): base (manager)
+        public GroupHelper(ApplicationManager manager) : base(manager)
         {
         }
 
-        public GroupHelper Remove(int p, GroupData group)
+        public GroupHelper Remove(int p)
         {
             manager.Navigator.GoToGroupPage();
-            SelectGroup(group, p);
+            SelectGroup(p);
             RemoveGroup();
             ReturnToGroupPage();
             return this;
         }
 
-        public GroupHelper Modify (int p, GroupData group, GroupData newData)
+        public GroupHelper Modify(int p, GroupData newData)
         {
             manager.Navigator.GoToGroupPage();
-            SelectGroup(group, p);
+            SelectGroup(p);
             InitNewGroupModification();
             FillGroupForm(newData);
             SubmitGroupModification();
@@ -73,12 +73,8 @@ namespace WebArrdessbookTests
             return this;
         }
 
-        public GroupHelper SelectGroup(GroupData group, int p)
+        public GroupHelper SelectGroup(int p)
         {
-            if (IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + p + "]")) == false)
-            {
-            Create(group);
-            }
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + p + "]")).Click();
             return this;
         }
@@ -101,5 +97,9 @@ namespace WebArrdessbookTests
             return this;
         }
 
+        public bool CheckElement(int p)
+        {
+            return IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + p + "]"));
+        }
     }
 }

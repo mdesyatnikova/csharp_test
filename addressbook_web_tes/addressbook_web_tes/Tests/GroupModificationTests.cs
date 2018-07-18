@@ -13,13 +13,22 @@ namespace WebArrdessbookTests
         [Test]
         public void GroupModificationTest()
         {
-            GroupData group = new GroupData("grop1");
-            group.Header = "group1";
-            group.Footer = "comment1";
+            //prepare
+            app.Navigator.GoToGroupPage();
+            if (app.Group.CheckElement(1)==false)
+            {
+                GroupData group = new GroupData("grop1");
+                group.Header = "group1";
+                group.Footer = "comment1";
+                app.Group.Create(group);
+
+            }
+
+            //action
             GroupData newData = new GroupData("group2");
             newData.Header = null;
             newData.Footer = null;
-            app.Group.Modify(1, group, newData);
+            app.Group.Modify(1, newData);
         }
     }
 }
