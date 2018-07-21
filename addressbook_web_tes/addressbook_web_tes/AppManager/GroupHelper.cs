@@ -75,7 +75,7 @@ namespace WebArrdessbookTests
 
         public GroupHelper SelectGroup(int p)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + p + "]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (p+1) + "]")).Click();
             return this;
         }
 
@@ -97,9 +97,21 @@ namespace WebArrdessbookTests
             return this;
         }
 
-        public bool CheckElement(int p)
+        public bool CheckElement()
         {
-            return IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + p + "]"));
+            return IsElementPresent(By.XPath("(//input[@name='selected[]'])[1]"));
+        }
+
+        public List<GroupData> GetGroupList()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            manager.Navigator.GoToGroupPage();
+            ICollection<IWebElement> elements =driver.FindElements(By.CssSelector("span.group"));
+            foreach (IWebElement element in elements)
+            {
+                groups.Add(new GroupData(element.Text));                     
+            }
+            return groups;
         }
     }
 }

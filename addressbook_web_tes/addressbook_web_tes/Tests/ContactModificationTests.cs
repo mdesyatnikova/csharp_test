@@ -15,7 +15,7 @@ namespace WebArrdessbookTests
         {
             //prepare
             app.Navigator.GoToHomePage();
-            if (app.Contact.CheckElement(1) == false)
+            if (app.Contact.CheckElement() == false)
             {
                 ContactData contact = new ContactData("Ivan", "Petrov");
                 contact.Nickname = "ipetrov";
@@ -27,7 +27,17 @@ namespace WebArrdessbookTests
             ContactData newData = new ContactData("Petr", "Ivanov");
             newData.Nickname = "pivanov";
             newData.Address = null;
-            app.Contact.Modify (1, newData);
+
+            List<ContactData> oldContacts = app.Contact.GetContactList();
+            app.Contact.Modify (0, newData);
+            List<ContactData> newContacts = app.Contact.GetContactList();
+            oldContacts[0].Firstname = newData.Firstname;
+            oldContacts[0].Lastname = newData.Lastname;
+            oldContacts[0].Nickname = newData.Nickname;
+            oldContacts[0].Address = newData.Address;
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
         }
     }
 }

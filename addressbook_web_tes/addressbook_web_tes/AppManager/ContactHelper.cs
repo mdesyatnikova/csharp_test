@@ -33,6 +33,8 @@ namespace WebArrdessbookTests
             return this;
         }
 
+
+
         public ContactHelper Remove(int p)
         {
             SelectContact(p);
@@ -71,7 +73,7 @@ namespace WebArrdessbookTests
 
         public ContactHelper SelectContact(int p)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + p + "]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (p+1) + "]")).Click();
             return this;
         }
 
@@ -83,7 +85,7 @@ namespace WebArrdessbookTests
 
         public ContactHelper InitContactModify(int p)
         {
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + p + "]")).Click();
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + (p+1) + "]")).Click();
             return this;
         }
 
@@ -93,9 +95,37 @@ namespace WebArrdessbookTests
             return this;
         }
 
-        public bool CheckElement(int p)
+        public bool CheckElement()
         {
-            return IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + p + "]"));            
+            return IsElementPresent(By.XPath("(//input[@name='selected[]'])[1]"));            
+        }
+
+        public List<ContactData> GetContactList()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            manager.Navigator.GoToHomePage();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name=\"entry\"]"));
+            foreach (IWebElement element in elements)
+            {
+                ICollection<IWebElement> cells = element.FindElements(By.TagName("td"));
+                int i = 0;
+                string firstname = null;
+                string lastname = null;
+                foreach (IWebElement cell in cells)
+                {
+                    i++;
+                    if (i == 2)
+                    {
+                        lastname = cell.Text;
+                    }
+                    else if (i == 3)
+                    {
+                        firstname = cell.Text;
+                    }
+                }
+                contacts.Add(new ContactData(firstname, lastname));
+            }
+            return contacts;
         }
     }
 }

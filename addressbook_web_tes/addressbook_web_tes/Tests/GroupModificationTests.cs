@@ -15,7 +15,7 @@ namespace WebArrdessbookTests
         {
             //prepare
             app.Navigator.GoToGroupPage();
-            if (app.Group.CheckElement(1)==false)
+            if (app.Group.CheckElement()==false)
             {
                 GroupData group = new GroupData("grop1");
                 group.Header = "group1";
@@ -28,7 +28,14 @@ namespace WebArrdessbookTests
             GroupData newData = new GroupData("group2");
             newData.Header = null;
             newData.Footer = null;
-            app.Group.Modify(1, newData);
+
+            List<GroupData> oldGroups = app.Group.GetGroupList();
+            app.Group.Modify(0, newData);
+            List<GroupData> newGroups = app.Group.GetGroupList();
+            oldGroups [0].Name = newData.Name;
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
         }
     }
 }
