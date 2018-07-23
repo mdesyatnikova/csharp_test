@@ -34,12 +34,12 @@ namespace WebArrdessbookTests
         }
 
 
-
         public ContactHelper Remove(int p)
         {
             SelectContact(p);
             RemoveContact();
             CloseAlert();
+            manager.Navigator.GoToHomePage();
             return this;
         }
 
@@ -62,12 +62,14 @@ namespace WebArrdessbookTests
         public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
+            contactCache = null;
             return this;
         }
 
         public ContactHelper RemoveContact()
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -80,6 +82,7 @@ namespace WebArrdessbookTests
         public ContactHelper SubmitContactModify()
         {
             driver.FindElement(By.Name("update")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -100,32 +103,44 @@ namespace WebArrdessbookTests
             return IsElementPresent(By.XPath("(//input[@name='selected[]'])[1]"));            
         }
 
+        private List<ContactData> contactCache = null;
+
         public List<ContactData> GetContactList()
         {
-            List<ContactData> contacts = new List<ContactData>();
+            if (contactCache == null)
+            {
+            contactCache = new List<ContactData>();
             manager.Navigator.GoToHomePage();
             ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name=\"entry\"]"));
-            foreach (IWebElement element in elements)
-            {
-                ICollection<IWebElement> cells = element.FindElements(By.TagName("td"));
-                int i = 0;
-                string firstname = null;
-                string lastname = null;
-                foreach (IWebElement cell in cells)
+                foreach (IWebElement element in elements)
                 {
-                    i++;
-                    if (i == 2)
+                    ICollection<IWebElement> cells = element.FindElements(By.TagName("td"));
+                    int i = 0;
+                    string firstname = null;
+                    string lastname = null;
+                    foreach (IWebElement cell in cells)
                     {
-                        lastname = cell.Text;
+                        i++;
+                        if (i == 2)
+                        {
+                            lastname = cell.Text;
+                        }
+                        else if (i == 3)
+                        {
+                            firstname = cell.Text;
+                        }
+
                     }
-                    else if (i == 3)
-                    {
-                        firstname = cell.Text;
-                    }
+                    contactCache.Add(new ContactData(firstname, lastname) { 
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")});
                 }
-                contacts.Add(new ContactData(firstname, lastname));
             }
-            return contacts;
+            return new List<ContactData>(contactCache);
+        }
+
+        public int GetContactCount()
+        {
+            return driver.FindElements(By.CssSelector("tr[name=\"entry\"]")).Count;
         }
     }
 }

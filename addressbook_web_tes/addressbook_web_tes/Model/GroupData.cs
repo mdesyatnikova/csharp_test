@@ -8,14 +8,10 @@ namespace WebArrdessbookTests
 {
     public class GroupData: IEquatable<GroupData>, IComparable<GroupData>
     {
-        private string name;
-        private string header = null;
-        private string footer = null;
 
         public GroupData (string name)
         {
-            this.name = name;
-
+            Name = name;
         }
 
         public bool Equals(GroupData other)
@@ -52,41 +48,12 @@ namespace WebArrdessbookTests
 
         }
 
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
+        public string Name { get; set; }
 
-            set
-            {
-                name = value;
-            }
+        public string Header { get; set; }
 
-        }
+        public string Footer { get; set; }
 
-        public string Header
-        {
-            get
-            {
-                return header;
-            }
-            set
-            {
-                header = value;
-            }
-        }
-        public string Footer
-        {
-            get
-            {
-                return footer;
-            }
-            set
-            {
-                footer = value;
-            }
-        }
+        public string Id { get; set; }
     }
 }

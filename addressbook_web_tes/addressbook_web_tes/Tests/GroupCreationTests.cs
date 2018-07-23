@@ -19,8 +19,10 @@ namespace WebArrdessbookTests
             group.Footer = "comment1";
 
             List<GroupData> oldGroups = app.Group.GetGroupList();
-            
+                    
             app.Group.Create(group);
+
+            Assert.AreEqual(oldGroups.Count + 1, app.Group.GetGroupCount());
 
             List<GroupData> newGroups =app.Group.GetGroupList();
             oldGroups.Add(group);

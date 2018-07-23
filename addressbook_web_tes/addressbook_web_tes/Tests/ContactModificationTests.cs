@@ -29,7 +29,11 @@ namespace WebArrdessbookTests
             newData.Address = null;
 
             List<ContactData> oldContacts = app.Contact.GetContactList();
+            ContactData oldData = oldContacts[0];
             app.Contact.Modify (0, newData);
+
+            Assert.AreEqual(oldContacts.Count, app.Contact.GetContactCount());
+
             List<ContactData> newContacts = app.Contact.GetContactList();
             oldContacts[0].Firstname = newData.Firstname;
             oldContacts[0].Lastname = newData.Lastname;
@@ -38,6 +42,15 @@ namespace WebArrdessbookTests
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
+
+            foreach (ContactData contact in newContacts)
+            {
+                if (contact.Id == oldData.Id)
+                {
+                    Assert.AreEqual(newData.Firstname, contact.Firstname);
+                    Assert.AreEqual(newData.Lastname, contact.Lastname);
+                }
+            }
         }
     }
 }
