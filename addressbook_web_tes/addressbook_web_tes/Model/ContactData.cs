@@ -45,7 +45,13 @@ namespace WebArrdessbookTests
             {
                 return 1;
             }
-            return (Firstname.CompareTo(other.Firstname) + Lastname.CompareTo(other.Lastname));
+
+            int value = Lastname.CompareTo(other.Lastname);
+            if (value == 0) 
+            {
+                return Firstname.CompareTo(other.Firstname);
+            }
+            else return value;
         }
 
         public string Firstname { get; set; }
