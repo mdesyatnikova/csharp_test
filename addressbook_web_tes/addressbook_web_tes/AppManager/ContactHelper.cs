@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using System.Text.RegularExpressions;
 
 namespace WebArrdessbookTests
 {
@@ -14,7 +15,7 @@ namespace WebArrdessbookTests
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
         }
-
+        
         public ContactHelper Create(ContactData contact)
         {
             InitNewContactCreation();
@@ -116,10 +117,10 @@ namespace WebArrdessbookTests
                 {
                     IList<IWebElement> cells = element.FindElements(By.TagName("td"));
 
-                    string firstname = cells[2].Text;
-                    string lastname = cells[1].Text;
+                    string firstName = cells[2].Text;
+                    string lastName = cells[1].Text;
 
-                    contactCache.Add(new ContactData(firstname, lastname) { 
+                    contactCache.Add(new ContactData(firstName, lastName) { 
                         Id = element.FindElement(By.TagName("input")).GetAttribute("value")});
                 }
             }
@@ -129,6 +130,58 @@ namespace WebArrdessbookTests
         public int GetContactCount()
         {
             return driver.FindElements(By.CssSelector("tr[name=\"entry\"]")).Count;
+        }
+
+        public ContactData GetContactInformationFromTable(int p)
+        {
+            manager.Navigator.GoToHomePage();
+            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[p].FindElements(By.TagName("td"));
+            string lastName = cells[1].Text;
+            string firstName = cells[2].Text;
+            string address = cells[3].Text;
+            string allEmail = cells[4].Text;
+            string allPhones = cells[5].Text;
+
+            return new ContactData(firstName, lastName)
+            {
+                Address = address,
+                AllPhones = allPhones,
+                AllEmail = allEmail
+            };
+
+        }
+
+        public ContactData GetContactInformationFromEditForm(int p)
+        {
+            manager.Navigator.GoToHomePage();
+            InitContactModify(p);
+            string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+            string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
+            string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+            string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+            string email = driver.FindElement(By.Name("email")).GetAttribute("value");
+            string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
+            string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
+
+            return new ContactData(firstName, lastName)
+            {
+                Address = address,
+                HomePhone = homePhone,
+                MobilePhone = mobilePhone,
+                WorkPhone = workPhone,
+                Email = email,
+                Email2 = email2,
+                Email3 = email3,
+            };
+        }
+
+        public int GetNumberOfSearchResults()
+        {
+            manager.Navigator.GoToHomePage();
+            string text = driver.FindElement(By.Id("search_count")).Text;
+            return Int32.Parse(text);
         }
     }
 }
