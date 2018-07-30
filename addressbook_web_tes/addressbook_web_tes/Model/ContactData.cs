@@ -7,10 +7,11 @@ using System.Text.RegularExpressions;
 
 namespace WebArrdessbookTests
 {
-    public class ContactData: IEquatable<ContactData>, IComparable<ContactData>
+    public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         private string allPhones;
         private string allEmail;
+        private string allInfo;
 
         public ContactData(string firstname, string lastname)
         {
@@ -34,7 +35,7 @@ namespace WebArrdessbookTests
 
         public int GetHachCode()
         {
-           return Firstname.GetHashCode() + Lastname.GetHashCode();
+            return Firstname.GetHashCode() + Lastname.GetHashCode();
         }
 
         public override string ToString()
@@ -50,7 +51,7 @@ namespace WebArrdessbookTests
             }
 
             int value = Lastname.CompareTo(other.Lastname);
-            if (value == 0) 
+            if (value == 0)
             {
                 return Firstname.CompareTo(other.Firstname);
             }
@@ -66,7 +67,7 @@ namespace WebArrdessbookTests
         public string Nickname { get; set; }
 
         public string Title { get; set; }
- 
+
         public string Company { get; set; }
 
         public string Address { get; set; }
@@ -90,7 +91,7 @@ namespace WebArrdessbookTests
         public string AllPhones
         {
             get
-            { 
+            {
                 if (allPhones != null)
                 {
                     return allPhones;
@@ -118,6 +119,18 @@ namespace WebArrdessbookTests
             }
         }
 
+        private string ToLine(string element)
+        {
+            if (element == null || element == "")
+            {
+                return null;
+            }
+            else
+            {
+                return element + "\r\n";
+            }
+        }
+
         public string AllEmail
         {
             get
@@ -128,7 +141,7 @@ namespace WebArrdessbookTests
                 }
                 else
                 {
-                    return (Email + "\r\n" + Email2 + "\r\n" + Email3).Trim();
+                    return (ToLine(Email) +ToLine(Email2) + ToLine(Email3)).Trim();
                 }
             }
             set
@@ -136,5 +149,25 @@ namespace WebArrdessbookTests
                 allEmail = value;
             }
         }
-    } 
+
+        public string AllInfo
+        {
+            get
+            {
+                if (allInfo != null)
+                {
+                    return allInfo;
+                }
+                else
+                {
+                    return (Firstname + ToLine(Lastname) + ToLine(Nickname) + ToLine(Address) + "\r\n" + ToLine(HomePhone) + ToLine(MobilePhone) + ToLine(WorkPhone) + "\r\n" + ToLine(Email) + ToLine(Email2) + ToLine(Email3)).Trim();
+
+                }
+            }
+            set
+            {
+                allInfo = value;
+            }
+        }
+    }
 }

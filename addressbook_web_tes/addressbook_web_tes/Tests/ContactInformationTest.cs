@@ -11,7 +11,7 @@ namespace WebArrdessbookTests
     public class ContactInformationTests : Auth_TestBase
     {
         [Test]
-        public void ContactInformationTest()
+        public void ContactInformationFromTableTest()
         {
             ContactData fromTable = app.Contact.GetContactInformationFromTable(0);
             ContactData fromForm = app.Contact.GetContactInformationFromEditForm(0);
@@ -21,6 +21,17 @@ namespace WebArrdessbookTests
             Assert.AreEqual(fromTable.Address, fromForm.Address);
             Assert.AreEqual(fromTable.AllPhones, fromForm.AllPhones);
             Assert.AreEqual(fromTable.AllEmail, fromForm.AllEmail);
+        }
+
+        [Test]
+        public void ContactInformationFromDetailsTest()
+        {
+            ContactData fromDetails = app.Contact.GetContactInformationFromDetails(0);
+            ContactData fromForm = app.Contact.GetContactInformationFromEditForm(0);
+
+            //verification
+            Assert.AreEqual(fromDetails, fromForm);
+            Assert.AreEqual(fromDetails.AllInfo, fromForm.AllInfo);
         }
     }
 }

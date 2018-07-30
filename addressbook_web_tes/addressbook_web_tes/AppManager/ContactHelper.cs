@@ -35,6 +35,7 @@ namespace WebArrdessbookTests
         }
 
 
+
         public ContactHelper Remove(int p)
         {
             SelectContact(p);
@@ -157,6 +158,7 @@ namespace WebArrdessbookTests
             InitContactModify(p);
             string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string nickName = driver.FindElement(By.Name("nickname")).GetAttribute("value");
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
             string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
             string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
@@ -167,6 +169,7 @@ namespace WebArrdessbookTests
 
             return new ContactData(firstName, lastName)
             {
+                Nickname = nickName,
                 Address = address,
                 HomePhone = homePhone,
                 MobilePhone = mobilePhone,
@@ -175,6 +178,29 @@ namespace WebArrdessbookTests
                 Email2 = email2,
                 Email3 = email3,
             };
+        }
+
+        public ContactData GetContactInformationFromDetails(int p)
+        {
+            manager.Navigator.GoToHomePage();
+            InitContactDetais(p);
+            string name = driver.FindElement(By.Id("content")).FindElement(By.TagName("b")).Text;
+            string[] split = name.Split(' ');
+            string firstName = split[0];
+            string lastName = split[1];
+            string allInfo = driver.FindElement(By.Id("content")).Text;
+            allInfo = Regex.Replace(allInfo, "[ :HMW]", "");
+
+            return new ContactData(firstName, lastName)
+            {
+                AllInfo = allInfo
+            };
+        }
+
+        public ContactHelper InitContactDetais(int p)
+        {
+            driver.FindElement(By.XPath("(//img[@alt='Details'])[" + (p + 1) + "]")).Click();
+            return this;
         }
 
         public int GetNumberOfSearchResults()
