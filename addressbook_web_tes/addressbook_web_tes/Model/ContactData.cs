@@ -119,7 +119,7 @@ namespace WebArrdessbookTests
             }
         }
 
-        private string ToLine(string element)
+        private string TransformContactFild(string element)
         {
             if (element == null || element == "")
             {
@@ -127,7 +127,20 @@ namespace WebArrdessbookTests
             }
             else
             {
-                return element + "\r\n";
+                if (element  == HomePhone)
+                {
+                    return ("H: " + element + "\r\n");
+                }
+                if (element == MobilePhone)
+                {
+                    return ("M: " + element + "\r\n");
+                }
+                if (element == WorkPhone)
+                {
+                    return ("W: " + element + "\r\n");
+                }
+
+                else return element + "\r\n";
             }
         }
 
@@ -141,7 +154,7 @@ namespace WebArrdessbookTests
                 }
                 else
                 {
-                    return (ToLine(Email) +ToLine(Email2) + ToLine(Email3)).Trim();
+                    return (TransformContactFild(Email) +TransformContactFild(Email2) + TransformContactFild(Email3)).Trim();
                 }
             }
             set
@@ -160,7 +173,7 @@ namespace WebArrdessbookTests
                 }
                 else
                 {
-                    return (Firstname + ToLine(Lastname) + ToLine(Nickname) + ToLine(Address) + "\r\n" + ToLine(HomePhone) + ToLine(MobilePhone) + ToLine(WorkPhone) + "\r\n" + ToLine(Email) + ToLine(Email2) + ToLine(Email3)).Trim();
+                    return (Firstname + " " + Lastname + "\r\n" + TransformContactFild(Nickname) + TransformContactFild(Address) + "\r\n" + TransformContactFild(HomePhone) + TransformContactFild(MobilePhone) + TransformContactFild(WorkPhone) + "\r\n" + TransformContactFild(Email) + TransformContactFild(Email2) + TransformContactFild(Email3)).Trim();
 
                 }
             }

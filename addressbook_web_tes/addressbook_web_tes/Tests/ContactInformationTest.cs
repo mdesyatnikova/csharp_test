@@ -30,7 +30,6 @@ namespace WebArrdessbookTests
             ContactData fromForm = app.Contact.GetContactInformationFromEditForm(0);
 
             //verification
-            Assert.AreEqual(fromDetails, fromForm);
             Assert.AreEqual(fromDetails.AllInfo, fromForm.AllInfo);
         }
     }

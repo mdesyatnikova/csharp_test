@@ -184,14 +184,9 @@ namespace WebArrdessbookTests
         {
             manager.Navigator.GoToHomePage();
             InitContactDetais(p);
-            string name = driver.FindElement(By.Id("content")).FindElement(By.TagName("b")).Text;
-            string[] split = name.Split(' ');
-            string firstName = split[0];
-            string lastName = split[1];
             string allInfo = driver.FindElement(By.Id("content")).Text;
-            allInfo = Regex.Replace(allInfo, "[ :HMW]", "");
 
-            return new ContactData(firstName, lastName)
+            return new ContactData(null, null)
             {
                 AllInfo = allInfo
             };
