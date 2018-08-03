@@ -10,14 +10,23 @@ namespace WebArrdessbookTests
     [TestFixture]
     public class ContactCreationTests: Auth_TestBase
     {
-        
-        [Test]
-        public void ContactCreationTest()
-        {  
-            ContactData contact = new ContactData("Ivan", "Petrov");
-            contact.Nickname = "ipetrov";
-            contact.Address = "NN";
 
+        public static IEnumerable<ContactData> RandomContactDataProvider()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            for (int i = 0; i < 5; i++)
+            {
+                contacts.Add(new ContactData(GenerateRandomString(30), GenerateRandomString(30))
+                {
+                    Nickname = GenerateRandomString(100),
+                    Address = GenerateRandomString(100)
+                });
+            }
+            return contacts;
+        }
+        [Test, TestCaseSource("RandomContactDataProvider")]
+        public void ContactCreationTest(ContactData contact)
+        {  
             List<ContactData> oldContacts = app.Contact.GetContactList();
 
             app.Contact.Create(contact);
