@@ -13,6 +13,10 @@ namespace WebArrdessbookTests
         private string allEmail;
         private string allInfo;
 
+        public ContactData()
+        {
+        }
+
         public ContactData(string firstname, string lastname)
         {
             Firstname = firstname;
