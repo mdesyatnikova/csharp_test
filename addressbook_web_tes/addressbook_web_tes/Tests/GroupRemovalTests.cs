@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace WebArrdessbookTests
 {
     [TestFixture]
-    public class GroupRemovalTests: Auth_TestBase
+    public class GroupRemovalTests: GroupTestBase
     {
         
         [Test]
@@ -27,14 +27,14 @@ namespace WebArrdessbookTests
             }
 
             //action 
-            List<GroupData> oldGroups = app.Group.GetGroupList();
-
-            app.Group.Remove(0);
+            List<GroupData> oldGroups = GroupData.GetAll();
+            GroupData toBeRemoved = oldGroups[0];
+            app.Group.Remove(toBeRemoved);
 
             Assert.AreEqual(oldGroups.Count - 1, app.Group.GetGroupCount());
 
-            List<GroupData> newGroups = app.Group.GetGroupList();
-            GroupData toBeRemoved = oldGroups[0];
+            List<GroupData> newGroups = GroupData.GetAll();
+            
             oldGroups.RemoveAt(0);
             Assert.AreEqual(oldGroups, newGroups);
 

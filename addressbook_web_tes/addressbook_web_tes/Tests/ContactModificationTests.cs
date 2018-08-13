@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace WebArrdessbookTests
 {
     [TestFixture]
-    public class ContactModificationTests: Auth_TestBase
+    public class ContactModificationTests: ContactTestBase
     {
         [Test]
         public void ContactModificationTest()
@@ -28,24 +28,26 @@ namespace WebArrdessbookTests
             newData.Nickname = "pivanov";
             newData.Address = null;
 
-            List<ContactData> oldContacts = app.Contact.GetContactList();
-            ContactData oldData = oldContacts[0];
-            app.Contact.Modify (0, newData);
+            List<ContactData> oldContacts = ContactData.GetAll();
+            oldContacts.Sort();
+            ContactData toBeModifed = oldContacts[0];
+            app.Contact.Modify (toBeModifed, newData);
 
             Assert.AreEqual(oldContacts.Count, app.Contact.GetContactCount());
 
-            List<ContactData> newContacts = app.Contact.GetContactList();
-            oldContacts[0].Firstname = newData.Firstname;
-            oldContacts[0].Lastname = newData.Lastname;
-            oldContacts[0].Nickname = newData.Nickname;
-            oldContacts[0].Address = newData.Address;
-            oldContacts.Sort();
+            List<ContactData> newContacts = ContactData.GetAll();
+            toBeModifed.Firstname = newData.Firstname;
+            toBeModifed.Lastname = newData.Lastname;
+            toBeModifed.Nickname = newData.Nickname;
+            toBeModifed.Address = newData.Address;
             newContacts.Sort();
+            oldContacts.Sort();
+            
             Assert.AreEqual(oldContacts, newContacts);
 
             foreach (ContactData contact in newContacts)
             {
-                if (contact.Id == oldData.Id)
+                if (contact.Id == toBeModifed.Id)
                 {
                     Assert.AreEqual(newData.Firstname, contact.Firstname);
                     Assert.AreEqual(newData.Lastname, contact.Lastname);

@@ -24,6 +24,26 @@ namespace WebArrdessbookTests
             return this;
         }
 
+        public GroupHelper Remove(GroupData group)
+        {
+            manager.Navigator.GoToGroupPage();
+            SelectGroup(group.Id);
+            RemoveGroup();
+            ReturnToGroupPage();
+            return this;
+        }
+
+        public GroupHelper Modify(GroupData group, GroupData newData)
+        {
+            manager.Navigator.GoToGroupPage();
+            SelectGroup(group.Id);
+            InitNewGroupModification();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            ReturnToGroupPage();
+            return this;
+        }
+
         public GroupHelper Modify(int p, GroupData newData)
         {
             manager.Navigator.GoToGroupPage();
@@ -33,10 +53,7 @@ namespace WebArrdessbookTests
             SubmitGroupModification();
             ReturnToGroupPage();
             return this;
-
         }
-
-
 
         public GroupHelper Create(GroupData group)
         {
@@ -79,6 +96,12 @@ namespace WebArrdessbookTests
         public GroupHelper SelectGroup(int p)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (p+1) + "]")).Click();
+            return this;
+        }
+
+        public GroupHelper SelectGroup(string id)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='"+id+"'])")).Click();
             return this;
         }
 
