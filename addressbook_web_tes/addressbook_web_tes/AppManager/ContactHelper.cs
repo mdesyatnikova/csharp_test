@@ -15,13 +15,36 @@ namespace WebArrdessbookTests
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
         }
-        
+
         public ContactHelper Create(ContactData contact)
         {
             InitNewContactCreation();
             FillContactForm(contact);
             SubmitContactCreation();
             manager.Navigator.ReturnToHomePage();
+            return this;
+        }
+
+        public ContactHelper AddContactToGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.GoToHomePage();
+            ClearGroupFilter();
+            SelectContact(contact.Id);
+            SelectGroupToAdd(group.Name);
+            CommitAddingContactToGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10)).
+                Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+            return this;
+        }
+
+        public ContactHelper DeleteContactOfGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.GoToHomePage();
+            GroupFilter(group);
+            SelectContact(contact.Id);
+            CommitDeleteContactOfGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10)).
+                   Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
             return this;
         }
 
@@ -97,10 +120,9 @@ namespace WebArrdessbookTests
             return this;
         }
 
-        public ContactHelper SelectContact(string id)
+        public void SelectContact(string id)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='" + id + "'])")).Click();
-            return this;
+            driver.FindElement(By.Id(id)).Click();
         }
 
         public ContactHelper SubmitContactModify()
@@ -130,6 +152,31 @@ namespace WebArrdessbookTests
         public bool CheckElement()
         {
             return IsElementPresent(By.XPath("(//input[@name='selected[]'])[1]"));            
+        }
+
+        public void ClearGroupFilter()
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
+        }
+
+        public void CommitAddingContactToGroup()
+        {
+            driver.FindElement(By.Name("add")).Click();
+        }
+
+        private void CommitDeleteContactOfGroup()
+        {
+            driver.FindElement(By.Name("remove")).Click();
+        }
+
+        public void SelectGroupToAdd(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+        }
+
+        public void GroupFilter(GroupData group)
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText(group.Name);
         }
 
         private List<ContactData> contactCache = null;
