@@ -70,9 +70,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\addressbook_web_tes\addressbook_web_tes.csproj">
+    <ProjectReference Include="..\addressbook_web_tes\addressbook_web_tests.csproj">
       <Project>{5ea399ff-5fa0-4095-9c1a-62391104a4fb}</Project>
-      <Name>addressbook_web_tes</Name>
+      <Name>addressbook_web_tests</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

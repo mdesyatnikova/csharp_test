@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "addressbook_web_tes", "addressbook_web_tes\addressbook_web_tes.csproj", "{5EA399FF-5FA0-4095-9C1A-62391104A4FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "addressbook_web_tests", "addressbook_web_tes\addressbook_web_tests.csproj", "{5EA399FF-5FA0-4095-9C1A-62391104A4FB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "addressbook-test-data-generators", "addressbook-test-data-generators\addressbook-test-data-generators.csproj", "{CD0CB368-8E52-4929-8A3C-B54426151150}"
 	ProjectSection(ProjectDependencies) = postProject
