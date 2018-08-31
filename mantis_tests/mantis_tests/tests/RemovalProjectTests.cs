@@ -12,7 +12,29 @@ namespace mantis_tests
         [Test]
         public void TestRemovalProject()
         {
-            app.Project.Remove(1);
+            List<ProjectData> oldList = app.Project.GetProjects();
+            ProjectData existingProject = oldList[0];
+            if (existingProject == null)
+            {
+                ProjectData newData = new ProjectData()
+                {
+                    Name = "project1",
+                    Description = "description1"
+                };
+
+
+                app.Project.Add(newData);
+            }
+
+            oldList = app.Project.GetProjects();
+            app.Project.Remove(existingProject);
+
+            List<ProjectData> newList = app.Project.GetProjects();
+            oldList.RemoveAt(0);
+            oldList.Sort();
+            newList.Sort();
+
+            Assert.AreEqual(oldList, newList);
         }
     }
 }

@@ -7,6 +7,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using System.Text.RegularExpressions;
 
 namespace mantis_tests
 {
@@ -24,13 +25,40 @@ namespace mantis_tests
             return this;
         }
 
-        public void Remove(int p)
+        public void Remove(ProjectData project)
         {
             manager.Menu.GoToManageMenu();
             manager.Menu.GoToProjectForm();
-            SelectProject(p);
+            SelectProject(project);
             RemoveProject();
             SubmitRemoveProject();
+        }
+
+        public List<ProjectData> GetProjects()
+        {
+            List<ProjectData> projects = new List<ProjectData>();
+            manager.Menu.GoToManageMenu();
+            manager.Menu.GoToProjectForm();
+            IList<IWebElement> rows = driver.FindElements(By.ClassName("table-responsive"))[0].FindElements(By.TagName("tr"));
+            foreach (IWebElement row  in rows)
+            {
+                if (row != rows [0])
+                {
+                    IWebElement link = row.FindElement(By.TagName("a"));
+                    string name = link.Text;
+                    string href = link.GetAttribute("href");
+                    Match m = Regex.Match(href, @"\d+$");
+                    string id = m.Value;
+
+                    projects.Add(new ProjectData()
+                    {
+                        Name = name,
+                        Id = id
+                    });
+                }
+            }
+
+            return projects;
         }
 
         public void SubmitAddProject()
@@ -60,9 +88,9 @@ namespace mantis_tests
             driver.FindElement(By.XPath("//input[@type='submit' and @value='Delete Project']")).Click();
         }
 
-        public void SelectProject(int p)
+        public void SelectProject(ProjectData project)
         {
-            driver.FindElement(By.XPath("//a[@href='manage_proj_edit_page.php?project_id="+p+"']")).Click();
+            driver.FindElement(By.XPath("//a[@href='manage_proj_edit_page.php?project_id="+project.Id+"']")).Click();
         }
     }
 }
